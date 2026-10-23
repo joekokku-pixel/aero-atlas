@@ -34,6 +34,8 @@ The endpoint is a temporary Cloudflare Quick Tunnel that forwards requests to th
 - **Nearby places and map data:** [OpenStreetMap](https://www.openstreetmap.org/) via the Overpass API and OpenStreetMap map tiles
 - **Globe visualization:** NASA Blue Marble imagery
 
+The website displays **© OpenStreetMap contributors** attribution beside the map and in the source credits. Use of these services remains subject to each provider's attribution requirements, terms of use, and rate limits. AeroAtlas currently does not use OpenAQ, WAQI, OpenRouteService, OSRM, or Sunrise-Sunset API.
+
 ## Using the website
 
 1. Open the [AeroAtlas website](https://joekokku-pixel.github.io/aero-atlas/).
