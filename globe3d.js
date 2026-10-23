@@ -106,6 +106,7 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
       canvas.setPointerCapture(event.pointerId);
       canvas.classList.add("is-dragging");
       button.classList.add("is-dragging-globe");
+      button.closest(".hero")?.classList.add("globe-active");
     });
 
     canvas.addEventListener("pointermove", (event) => {
@@ -132,6 +133,7 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
       dragging = false;
       canvas.classList.remove("is-dragging");
       button.classList.remove("is-dragging-globe");
+      button.closest(".hero")?.classList.remove("globe-active");
       if (moved) {
         button.dataset.skipClick = "true";
         window.setTimeout(() => delete button.dataset.skipClick, 700);
