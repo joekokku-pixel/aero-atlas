@@ -424,6 +424,18 @@ function enableAtmosphere() {
 }
 
 $("date").value = todayISO();
+document.querySelectorAll("[data-letter-hover]").forEach((word) => {
+  const label = word.textContent.trim();
+  word.setAttribute("aria-label", label);
+  word.setAttribute("aria-hidden", "true");
+  word.replaceChildren(...Array.from(label).map((character, index) => {
+    const letter = document.createElement("span");
+    letter.className = "signature-letter";
+    letter.style.setProperty("--letter-index", index);
+    letter.textContent = character === " " ? "\u00a0" : character;
+    return letter;
+  }));
+});
 $("date").min = todayISO();
 $("plan-form").addEventListener("submit", plan);
 $("ask-form").addEventListener("submit", askAeroAtlas);
