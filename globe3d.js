@@ -8,7 +8,8 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
   try {
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    // Retina desktop displays can otherwise make the large globe stutter.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setClearColor(0x000000, 0);
 
     const scene = new THREE.Scene();
@@ -18,7 +19,7 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
     const globe = new THREE.Group();
     scene.add(globe);
 
-    const earthGeometry = new THREE.SphereGeometry(0.96, 128, 96);
+    const earthGeometry = new THREE.SphereGeometry(0.96, 96, 72);
     const earthMaterial = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       roughness: 0.88,
@@ -93,19 +94,26 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
 
     let dragging = false;
     let moved = false;
+    let pointerInside = false;
     let previousX = 0;
     let previousY = 0;
 
+    canvas.addEventListener("pointerenter", () => { pointerInside = true; });
+    canvas.addEventListener("pointerleave", () => { pointerInside = false; });
+
     canvas.addEventListener("pointerdown", (event) => {
+      if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
       event.stopPropagation();
       event.preventDefault();
       dragging = true;
       moved = false;
       previousX = event.clientX;
       previousY = event.clientY;
-      canvas.setPointerCapture(event.pointerId);
+      try { canvas.setPointerCapture(event.pointerId); } catch { /* Pointer capture is optional in older browsers. */ }
       canvas.classList.add("is-dragging");
       button.classList.add("is-dragging-globe");
+      button.style.transform = "";
+      button.querySelector(".hero-orb")?.classList.add("dragging");
       button.closest(".hero")?.classList.add("globe-active");
     });
 
@@ -114,13 +122,15 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
       event.preventDefault();
       const dx = event.clientX - previousX;
       const dy = event.clientY - previousY;
-      if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+      if (Math.abs(dx) + Math.abs(dy) > 2) moved = true;
       const rect = canvas.getBoundingClientRect();
-      // Scale the drag against the globe itself so the same gesture feels
-      // consistent on a phone, trackpad, and large desktop display.
-      globe.rotation.y += (dx / Math.max(rect.width, 1)) * Math.PI * 1.6;
+      // Use smaller, bounded pointer steps to avoid jumps from high-resolution
+      // desktop mice and trackpads while retaining natural globe-like rotation.
+      const dragX = THREE.MathUtils.clamp(dx, -80, 80);
+      const dragY = THREE.MathUtils.clamp(dy, -80, 80);
+      globe.rotation.y += (dragX / Math.max(rect.width, 1)) * Math.PI * 1.2;
       globe.rotation.x = THREE.MathUtils.clamp(
-        globe.rotation.x + (dy / Math.max(rect.height, 1)) * Math.PI * 1.6,
+        globe.rotation.x + (dragY / Math.max(rect.height, 1)) * Math.PI * 1.2,
         -1.42,
         1.42
       );
@@ -133,12 +143,13 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
       dragging = false;
       canvas.classList.remove("is-dragging");
       button.classList.remove("is-dragging-globe");
+      button.querySelector(".hero-orb")?.classList.remove("dragging");
       button.closest(".hero")?.classList.remove("globe-active");
       if (moved) {
         button.dataset.skipClick = "true";
         window.setTimeout(() => delete button.dataset.skipClick, 700);
       }
-      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      try { if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId); } catch { /* Already released by the browser. */ }
     };
     canvas.addEventListener("pointerup", endDrag);
     canvas.addEventListener("pointercancel", endDrag);
@@ -153,7 +164,7 @@ if (canvas && surface && button && "WebGLRenderingContext" in window) {
     const animate = (now) => {
       const dt = Math.min((now - previousFrame) / 1000, 0.05);
       previousFrame = now;
-      if (!dragging) globe.rotation.y += dt * 0.035;
+      if (!dragging && !pointerInside) globe.rotation.y += dt * 0.025;
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     };
