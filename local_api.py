@@ -53,6 +53,7 @@ class Handler(BaseHTTPRequestHandler):
             payload = {
                 "model": MODEL,
                 "stream": False,
+                "think": False,
                 "messages": [
                     {
                         "role": "system",
