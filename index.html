@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Plan outdoor activities with a live comparison of nearby places and forecast windows.">
+  <title>AeroAtlas — Outdoor plans, in better balance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="AeroAtlas home"><span class="logo-icon">A</span><span class="logo-wordmark"><span class="logo-name">AEROATLAS</span><small>LIVE OUTDOOR PLANNING</small></span></a>
+    <div class="nav-right"><span class="live-dot"></span><span>FORECAST-LED PLANNING</span></div>
+  </header>
+  <main class="page" id="top">
+    <section class="hero">
+      <canvas id="wind-canvas" aria-hidden="true"></canvas>
+      <div><p class="eyebrow">FORECAST-AWARE OUTDOOR PLANNING</p><h1><span class="brand-light">AERO</span> <i>ATLAS</i></h1><p class="hero-text">Find your outside. Compare nearby places and forecast times for the activity you have in mind.</p></div>
+      <button class="hero-note" id="orbit-toggle" type="button" aria-label="Change AeroAtlas focus: Place and Time. Drag the globe to rotate it"><span class="hero-orb" aria-hidden="true"><span class="globe-surface"><canvas class="earth-canvas" id="earth-canvas" aria-label="Interactive 3D Earth. Drag to rotate."></canvas><svg class="globe-map" viewBox="0 0 430 430" aria-hidden="true"><defs><clipPath id="earth-clip"><circle cx="215" cy="215" r="214"/></clipPath><linearGradient id="land-shade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c7d4ac"/><stop offset=".46" stop-color="#8ba982"/><stop offset="1" stop-color="#547b75"/></linearGradient><linearGradient id="terrain-shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e4d9b9" stop-opacity=".42"/><stop offset="1" stop-color="#315e58" stop-opacity=".05"/></linearGradient></defs><g clip-path="url(#earth-clip)"><g class="globe-graticule"><ellipse cx="215" cy="215" rx="104" ry="214"/><ellipse cx="215" cy="215" rx="183" ry="214"/><ellipse cx="215" cy="215" rx="214" ry="80"/><ellipse cx="215" cy="215" rx="214" ry="151"/><path d="M0 215h430M0 143h430M0 287h430"/></g><g class="globe-continents" fill="url(#land-shade)" stroke="#425f5c" stroke-width="1.25" stroke-linejoin="round"><path d="M44 94 57 78 77 74 91 60 114 62 126 75 147 77 159 91 178 96 183 112 168 125 161 144 146 153 138 175 125 183 118 204 104 216 97 237 84 239 76 219 69 204 59 196 58 178 47 166 49 149 40 138 48 124 38 111Z"/><path d="M157 62 171 50 194 48 208 56 205 69 190 77 174 72Z"/><path d="M132 214 148 211 161 221 170 237 168 252 181 269 177 285 169 301 167 323 158 346 151 372 140 387 133 366 129 345 123 327 124 307 116 289 119 270 111 252 116 235Z"/><path d="M188 125 198 113 213 109 223 116 239 112 248 120 263 118 272 126 292 123 302 130 319 127 329 134 347 132 359 139 379 140 392 149 405 151 409 165 398 173 382 172 371 181 355 179 344 188 328 185 317 197 306 194 298 207 283 205 276 194 265 191 256 177 246 175 241 162 230 158 224 146 211 148 203 139Z"/><path d="M214 154 229 153 241 163 249 180 263 190 270 208 266 227 272 242 264 258 259 278 246 300 238 322 225 335 216 326 211 306 204 291 202 270 194 250 195 230 188 214 193 197 188 181 198 168Z"/><path d="M273 183 287 179 300 184 304 195 296 205 282 204Z"/><path d="M304 269 321 260 339 265 352 277 362 291 357 307 344 316 326 312 316 302 305 294Z"/><path d="M365 223 375 218 384 225 381 236 371 239Z"/><path d="M91 88 102 82 112 86 115 96 107 104 96 102Z"/></g><g class="terrain-lines" fill="none" stroke="url(#terrain-shade)" stroke-width="1"><path d="M69 122q35-30 73-10t-8 38q-25 5-28 29t-28 16M205 134q25-17 42 1t-10 28q-19 8-3 29t-7 30M220 218q26-18 34 4t-14 31q-17 12-2 28t-12 35M306 148q31-20 60 4t-7 27q-25 2-20 24t-24 19"/></g><g class="globe-clouds"><path d="M30 119c25-17 49-15 72 0 19-12 39-6 46 8-29 7-56 8-82 2-13 5-25 3-36-10Z"/><path d="M239 92c24-12 48-7 61 7 18-7 36 0 42 12-28 5-52 3-73-3-11 3-21-1-30-16Z"/><path d="M158 285c20-10 40-7 52 5 15-5 31 0 37 10-25 5-47 4-65-2-10 3-18-1-24-13Z"/></g></g></svg><span class="globe-grid"></span></span></span><span class="hero-note-copy"><b>PLACE × TIME</b><small>NASA Blue Marble · drag to rotate<br>Scroll to zoom · tap to explore</small></span></button>
+    </section>
+
+    <section class="panel planner" aria-labelledby="planner-title">
+      <div class="panel-head"><div><span class="number">01</span><h2 id="planner-title">Plan an outing</h2></div><span class="soft">No account needed</span></div>
+      <form id="plan-form" class="form-grid">
+        <label><span>ACTIVITY</span><select id="activity"><option>Walking</option><option>Running</option><option>Cycling</option><option>Hiking</option><option>Cricket</option><option>Outdoor football</option><option>Outdoor tennis</option><option>Yoga</option><option>Picnic</option><option>Photography</option><option>Outdoor event</option></select></label>
+        <label class="area-field"><span>STARTING AREA</span><input id="area" value="Powai, Mumbai" placeholder="e.g. Powai, Mumbai" required></label>
+        <label><span>DATE</span><input id="date" type="date" required></label>
+        <label><span>FREE WHEN?</span><select id="time-window"><option value="any">Any time</option><option value="morning">Morning · 5–11</option><option value="afternoon">Afternoon · 12–16</option><option value="evening">Evening · 17–22</option></select></label>
+        <label><span>SEARCH RADIUS</span><select id="radius"><option value="3000">3 km</option><option value="5000" selected>5 km</option><option value="10000">10 km</option></select></label>
+        <label class="group-field"><span>GROUP ACTIVITIES <small>OPTIONAL</small></span><input id="group" placeholder="e.g. walking, cricket"></label>
+        <button id="plan-button" class="button" type="submit"><span>Find my plan</span><b>↗</b></button>
+      </form>
+      <p class="form-hint">For GroupFit, enter activities separated by commas. Recommendations are comparisons, not safety advice.</p>
+    </section>
+
+    <div id="status" class="status hidden" role="status" aria-live="polite"></div>
+
+    <section id="results" class="hidden" aria-live="polite">
+      <div class="results-title"><div><p class="eyebrow">YOUR AEROATLAS BRIEF</p><h2 id="summary-title">Your best place and time</h2></div><span id="updated" class="soft"></span></div>
+      <article class="panel top-pick"><div><p class="pick-kicker">TOP MATCH FROM THE CHECKED FORECAST</p><h3 id="best-title"></h3><p id="best-detail"></p></div><div class="match-score"><strong id="score"></strong><span>match score</span></div></article>
+
+      <div class="feature-grid">
+        <article class="panel feature"><div class="feature-head"><span class="feature-icon blue">↝</span><div><small>01 · PLACE CHANGES</small><h3>WindShift</h3></div></div><p id="windshift"></p></article>
+        <article class="panel feature"><div class="feature-head"><span class="feature-icon amber">◷</span><div><small>02 · TIME WINDOW</small><h3>Comfort Window</h3></div></div><p id="comfort"></p></article>
+        <article class="panel feature"><div class="feature-head"><span class="feature-icon violet">↻</span><div><small>03 · COMPARE A SCENARIO</small><h3>What If? Scenario Replay</h3></div></div><p id="scenario"></p></article>
+        <article class="panel feature"><div class="feature-head"><span class="feature-icon green">◎</span><div><small>04 · SHARED PLANS</small><h3>GroupFit</h3></div></div><p id="groupfit"></p></article>
+      </div>
+
+      <section class="panel map-panel"><div class="section-title"><div><p class="eyebrow">NEARBY OPTIONS</p><h3>Places around your starting area</h3></div><span class="soft">© OpenStreetMap contributors</span></div><div id="map" aria-label="Map of nearby outdoor places"></div></section>
+      <section class="panel timeline-panel"><div class="section-title"><div><p class="eyebrow">FORECAST COMPARISON</p><h3>See how the top match changes by hour</h3></div><span class="soft">Times shown in local time</span></div><div id="timeline" class="timeline"></div></section>
+
+      <section class="panel assistant">
+        <div class="assistant-copy"><p class="eyebrow">ASK AEROATLAS</p><h3>Understand the recommendation</h3><p>Ask about the comparison. Qwen3 will explain using the forecast result shown above.</p></div>
+        <form id="ask-form" class="ask-form"><label class="sr-only" for="question">Your question</label><input id="question" maxlength="500" placeholder="Why was this place suggested?" required><button type="button" id="mic" class="mic" title="Speak your question" aria-label="Speak your question">🎙</button><button id="ask-button" class="button ask-button" type="submit"><span>Ask the AI</span><b>↗</b></button></form>
+        <label class="read-aloud"><input id="read-aloud" type="checkbox"> Read answer aloud</label>
+        <p id="ask-status" class="ask-status" aria-live="polite">Voice features depend on browser support.</p><div id="answer" class="answer hidden" aria-live="polite"></div>
+      </section>
+      <p class="data-note">Weather and geocoding: Open-Meteo. Place data: OpenStreetMap via Overpass API. Scores use a simple activity-based heuristic; they are not probabilities or safety ratings. Local microclimates, air quality, traffic, and actual route conditions are not assessed.</p>
+    </section>
+    <footer><span>© AeroAtlas · Outdoor plans, in better balance</span><span>Globe imagery: NASA Blue Marble · Open data, clearly explained.</span></footer>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script type="module" src="globe3d.js"></script>
+</body>
+</html>

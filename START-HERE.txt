@@ -1,0 +1,52 @@
+AEROATLAS — FREE SETUP (MAC)
+
+The website is hosted free on GitHub Pages. Qwen runs on your Mac using Ollama.
+A temporary Cloudflare link lets judges reach the AI while your Mac is awake.
+No Modal account, paid inference provider, or API key is needed.
+
+PART 1 — GET THE AI RUNNING
+1. Install Ollama from https://ollama.com/download/mac
+2. Open Terminal and run:
+   ollama run qwen3:1.7b
+   The first run downloads the model (about 1.4 GB). When it opens a chat, type /bye.
+   Keep Ollama running in the background.
+
+PART 2 — START THE AEROATLAS AI CONNECTION
+3. In VS Code, open this AeroAtlasFresh folder.
+4. Choose Terminal > New Terminal and run:
+   python3 local_api.py
+   Leave this terminal open. It runs the small connection between the app and Ollama.
+
+PART 3 — GIVE JUDGES A TEMPORARY PUBLIC AI LINK
+5. Open a second terminal.
+   If Homebrew is installed, run: brew install cloudflared
+   Then run: cloudflared tunnel --url http://localhost:8001
+   Leave this terminal open. Copy the https://....trycloudflare.com URL it prints.
+   If you do not have Homebrew, install cloudflared from:
+   https://developers.cloudflare.com/tunnel/downloads/
+6. In config.js, set the URL and add /explain, for example:
+   window.AEROATLAS_API_URL = "https://random-words.trycloudflare.com/explain";
+   Use your actual tunnel URL, not the example.
+
+PART 4 — PUBLISH THE WEBSITE
+7. In VS Code, open Source Control, initialize the repository if needed, commit the
+   files, and publish to a PUBLIC GitHub repository. If asked, name it aeroatlas.
+8. In that GitHub repo, open Settings > Pages and select GitHub Actions as the source.
+   The included workflow publishes the site. Wait for the Pages action to finish and
+   open the website URL GitHub shows.
+9. If config.js was changed after the first publish, commit and push again.
+
+DEMO CHECK
+- Open the public website and create a forecast comparison.
+- Ask the assistant a question about that result.
+- Keep the Mac awake, Ollama open, and both VS Code terminals running during judging.
+- The temporary URL changes when you restart the tunnel. If it changes, update config.js,
+  commit and push, and wait for GitHub Pages to republish.
+
+MODEL / DATA
+- Model: Qwen3-1.7B, downloaded and run locally; no per-question API bill.
+- Model card: https://huggingface.co/Qwen/Qwen3-1.7B
+- Weather and geocoding: Open-Meteo.
+- Places and map: OpenStreetMap contributors via Overpass API and map tiles.
+- Match scores are prototype heuristics, not probabilities or safety ratings.
+- This prototype does not assess air quality, traffic pollution, or route safety.
