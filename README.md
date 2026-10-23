@@ -16,6 +16,12 @@ A small outdoor-planning prototype. Its static website can be published with Git
 
 The tunnel URL is temporary and changes when the tunnel restarts. Keep Ollama, the local API, the tunnel, and your Mac running during the demo. Quick Tunnels are for testing and have no uptime guarantee.
 
+## Demo API endpoint
+
+`https://politics-wrestling-dad-pontiac.trycloudflare.com/explain`
+
+This temporary endpoint forwards requests to the local Qwen3-1.7B API. It is available only while the host Mac, Ollama, the AeroAtlas API, and the Cloudflare tunnel are running. The URL may change when the tunnel restarts; update `config.js` and this README if it does.
+
 ## Publish the website
 
 Publish this folder to a public GitHub repository. In the repository, select **Settings → Pages → GitHub Actions**. The included workflow publishes the website on every push to `main`. If you update `config.js`, commit and push again.
