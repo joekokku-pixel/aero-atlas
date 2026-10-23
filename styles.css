@@ -1011,14 +1011,19 @@ footer { border-color:#dce4ec;color:#718195; }
 /* A small raised signature anchors the bottom of the page. */
 footer { align-items:center;flex-wrap:wrap; }
 .creator-credit {
-  display:inline-flex;align-items:center;gap:12px;padding:11px 16px;border:1px solid rgba(91,155,220,.34);
+  position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:12px;padding:13px 19px;border:1px solid rgba(91,155,220,.4);
   border-radius:14px;background:linear-gradient(145deg,#fff 5%,#edf5ff 100%);
-  box-shadow:0 5px 0 #d8e3f0,0 12px 24px rgba(37,67,105,.12),inset 0 1px 0 #fff;
-  transform:translateY(-3px);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  box-shadow:0 6px 0 #d8e3f0,0 15px 28px rgba(37,67,105,.15),inset 0 1px 0 #fff;
+  transform-style:preserve-3d;animation:credit-float 4.2s ease-in-out infinite;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
 }
-.creator-credit:hover { transform:translateY(-7px);border-color:#9a79d2;box-shadow:0 8px 0 #d8e3f0,0 20px 34px rgba(72,79,133,.19),0 0 24px rgba(137,100,217,.16),inset 0 1px 0 #fff; }
-.creator-credit small { color:#76879d;font-size:8px;font-weight:900;letter-spacing:1.5px; }
-.creator-credit strong { color:#26394d;font:800 10px Montserrat,sans-serif;letter-spacing:.6px; }
+.creator-credit::after { content:"";position:absolute;z-index:-1;top:-30%;bottom:-30%;left:-45%;width:28%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);opacity:0; }
+.creator-credit:hover { animation:none;transform:perspective(700px) translateY(-7px) rotateX(4deg);border-color:#9a79d2;box-shadow:0 9px 0 #d8e3f0,0 22px 38px rgba(72,79,133,.21),0 0 27px rgba(137,100,217,.18),inset 0 1px 0 #fff; }
+.creator-credit:hover::after { opacity:1;animation:credit-shine .8s ease-out; }
+.creator-credit small { color:#76879d;font-size:9px;font-weight:900;letter-spacing:1.5px; }
+.creator-credit strong { color:#26394d;font:800 11px Montserrat,sans-serif;letter-spacing:.6px; }
 .creator-credit i { color:#8054c7;font-style:normal;padding:0 4px; }
+@keyframes credit-float { 0%,100% { translate:0 0; } 50% { translate:0 -4px; } }
+@keyframes credit-shine { from { left:-45%; } to { left:125%; } }
 @media(max-width:760px) { footer { justify-content:center;text-align:center; } .creator-credit { order:-1; } }
-@media(prefers-reduced-motion:reduce) { .creator-credit { transition:none; } }
+@media(prefers-reduced-motion:reduce) { .creator-credit { transition:none;animation:none; } .creator-credit:hover::after { animation:none; } }
